@@ -3,129 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shofy</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
+    <title>Shoffy • Philippines</title>
 
+    <!-- Bootstrap -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <nav class="navigation">
-      <div class="nav">
-        <h2>Shoppy</h2>
-        <div>
-          <ul class="list">
-            <li><a href="all" id="all">All</a></li>
-            <li><a href="vegetable" id="vegetable">Vegetable</a></li>
-            <li><a href="fruit" id="fruit">Fruit</a></li>
-            <li><a href="snack" id="snack">Snack</a></li>
-          </ul>
-          <button>Cart</button>
-        </div>
+
+  <body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-3" href="#">Shoffy</a>
+        <span class="text-white small">Davao • Philippines</span>
       </div>
     </nav>
 
-    <!-- Items -->
-
-    <div class="items">
-      <div class="all">
-        <!-- vegetable -->
-        <div class="vegetable">
-          <div class="container">
-            <div><h2>Talong</h2></div>
-            <h2>P 50</h2>
-            <button id="v-talong">Add to Cart</button>
-          </div>
-          <div class="container">
-            <div><h2>Ampalaya</h2></div>
-            <h2>P 35</h2>
-            <button id="v-ampalaya">Add to Cart</button>
-          </div>
-          <div class="container">
-            <div><h2>Okra</h2></div>
-            <h2>P 40</h2>
-            <button id="v-okra">Add to Cart</button>
-          </div>
+    <!-- Main Content -->
+    <div class="container py-4">
+      <div class="row g-4">
+        <!-- Products -->
+        <div class="col-lg-7">
+          <h2 class="mb-4 fw-bold">iPhone Collection</h2>
+          <div class="row g-4" id="productList"></div>
         </div>
 
-        <!-- Fruits -->
-        <div class="fruits">
-          <div class="container">
-            <div><h2>Papaya</h2></div>
-            <h2>P 150</h2>
-            <button id="f-papaya">Add to Cart</button>
-          </div>
+        <!-- Cart -->
+        <div class="col-lg-5">
+          <div class="sticky-top" style="top: 20px">
+            <h4 class="mb-3">Your Cart (<span id="cartCount">0</span>)</h4>
 
-          <div class="container">
-            <div><h2>Saging</h2></div>
-            <h2>P 90</h2>
-            <button id="f-saging">Add to Cart</button>
-          </div>
+            <div class="card shadow-sm mb-3">
+              <div class="card-body p-0">
+                <table class="table mb-0 cart-table">
+                  <thead class="table-light">
+                    <tr>
+                      <th></th>
+                      <th>Product</th>
+                      <th class="text-end">Price</th>
+                      <th class="text-center">Qty</th>
+                      <th class="text-end">Total</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="cartTableBody"></tbody>
+                </table>
+              </div>
+            </div>
 
-          <div class="container">
-            <div><h2>Mangga</h2></div>
-            <h2>P 95</h2>
-            <button id="f-mangga">Add to Cart</button>
-          </div>
-        </div>
+            <div
+              class="card summary-card shadow-sm mb-3"
+              id="summaryCard"
+            ></div>
 
-        <!-- snacks -->
-        <div class="snacks">
-          <div class="container">
-            <div><h2>Piattos</h2></div>
-            <h2>P 30</h2>
-            <button id="s-piattos">Add to Cart</button>
-          </div>
+            <button
+              onclick="placeOrder()"
+              class="btn btn-danger w-100 py-3 fw-bold fs-5"
+            >
+              PLACE ORDER • ₱<span id="grandTotalBtn">0</span>
+            </button>
 
-          <div class="container">
-            <div><h2>Tahoos</h2></div>
-            <h2>P 20</h2>
-            <button id="s-tahoos">Add to Cart</button>
-          </div>
-
-          <div class="container">
-            <div><h2>Nova</h2></div>
-            <h2>P 30</h2>
-            <button id="s-nova">Add to Cart</button>
+            <button
+              onclick="clearCart()"
+              class="btn btn-outline-danger w-100 mt-3"
+            >
+              Clear Cart
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- cart -->
-
-    <div class="cart-container">
-      <div class="top">
-        <button class="back">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="40"
-            fill="currentColor"
-            class="arrow-left"
-            viewBox="0 0 17 17"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
-            />
-          </svg>
-        </button>
-        <h3>Cart</h3>
-      </div>
-      <div class="item-container"></div>
-      <div class="cart-summary">
-        <div>Subtotal: P 1,455</div>
-        <div>Discount: P 1,455</div>
-        <div>Tax: P 1,455</div>
-        <div>Shipping fee: P 1,455</div>
-        <hr />
-        <div>Grand Total: P 1,455 <button>Check Out</button></div>
-      </div>
-    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
