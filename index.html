@@ -4,139 +4,154 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shoffy • Philippines</title>
-
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
   </head>
+  <body>
+    <!-- ===== STICKY NAVBAR ===== -->
+    <nav class="navbar">
+      <div class="container">
+        <a class="navbar-brand" href="#">Shoffy</a>
 
-  <body class="bg-light">
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark shadow-sm">
-      <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand fw-bold fs-3" href="#">Shoffy</a>
-        <span class="text-white small">Davao • Philippines</span>
-        <button id="cartToggleBtn" class="btn btn-outline-light btn-sm p-2">
-          <!-- Cart Icon Only -->
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            fill="currentColor"
-            class="bi bi-cart4"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"
-            />
-          </svg>
-        </button>
+        <div class="search-container">
+          <i class="bi bi-search search-icon"></i>
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="Search products..."
+          />
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <span class="location-badge text-white">
+            <i class="bi bi-geo-alt-fill"></i>
+            Davao, Philippines
+          </span>
+          <button id="cartToggleBtn" class="cart-btn">
+            <i class="bi bi-cart3"></i>
+            <span>Cart</span>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </button>
+        </div>
       </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container-fluid py-4">
-      <div class="row g-4">
-        <!-- Products -->
-        <div id="productColumn" class="col-lg-12 transition-column">
-          <h2 class="mb-4 fw-bold">iPhone Collection</h2>
-          <div class="row g-4" id="productList"></div>
-        </div>
-
-<!-- Cart -->
-<div id="cartContainer" class="cart-slide d-none">
-  <div class="card shadow-sm h-100">
-    <div class="card-body p-3 d-flex flex-column">
-      <!-- Back Button -->
-      <button id="cartBackBtn" class="btn btn-outline-secondary mb-3">
-        ← Back
-      </button>
-      
-      <h4 class="mb-3">Your Cart (<span id="cartCount">0</span>)</h4>
-      <div class="flex-grow-1 overflow-auto">
-        <table class="table mb-0 cart-table">
-          <thead class="table-light">
-            <tr>
-              <th></th>
-              <th>Product</th>
-              <th class="text-end">Price</th>
-              <th class="text-center">Qty</th>
-              <th class="text-end">Total</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="cartTableBody"></tbody>
-        </table>
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="container products-section">
+      <h1 class="section-title">iPhone Collection</h1>
+      <div class="row g-4" id="productList"></div>
+      <div id="noResults" class="no-results d-none">
+        <i class="bi bi-search"></i>
+        <h3>No products found</h3>
+        <p>Try adjusting your search terms</p>
       </div>
-      <div class="card summary-card shadow-sm mt-3 mb-3 p-3" id="summaryCard"></div>
-      <button id="placeOrderBtn" class="btn btn-danger w-100 py-3 fw-bold fs-5 mb-2">
-        PLACE ORDER • ₱<span id="grandTotalBtn">0</span>
-      </button>
-      <button onclick="clearCart()" class="btn btn-outline-danger w-100">Clear Cart</button>
     </div>
-  </div>
-</div>
 
-    <!-- Checkout Modal -->
-    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
+    <!-- ===== CART SIDEBAR ===== -->
+    <div id="cartSlide" class="cart-slide">
+      <div class="cart-header">
+        <h4 class="cart-title">Your Cart (<span id="cartCount">0</span>)</h4>
+      </div>
+      <div class="cart-content">
+        <div id="cartItems"></div>
+        <div id="cartSummary"></div>
+      </div>
+    </div>
+
+    <!-- ===== CHECKOUT MODAL ===== -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Checkout</h5>
+            <h5 class="modal-title">
+              <i class="bi bi-credit-card me-2"></i>Checkout
+            </h5>
             <button
               type="button"
-              class="btn-close"
+              class="btn-close btn-close-white"
               data-bs-dismiss="modal"
             ></button>
           </div>
           <div class="modal-body">
-            <form id="checkoutForm" novalidate>
+            <form id="checkoutForm" class="needs-validation" novalidate>
               <div class="mb-3">
-                <label class="form-label">Full Name</label>
+                <label for="fullName" class="form-label">Full Name *</label>
                 <input
                   type="text"
                   class="form-control"
                   id="fullName"
                   required
+                  placeholder="Juan Dela Cruz"
                 />
-                <div class="invalid-feedback">Please enter your name.</div>
+                <div class="invalid-feedback">Please enter your full name.</div>
               </div>
 
               <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" required />
-                <div class="invalid-feedback">Please enter a valid email.</div>
+                <label for="email" class="form-label">Email Address *</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  required
+                  placeholder="juan@example.com"
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid email address.
+                </div>
               </div>
 
               <div class="mb-3">
-                <label class="form-label">Payment Method</label>
+                <label for="paymentMethod" class="form-label"
+                  >Payment Method *</label
+                >
                 <select class="form-select" id="paymentMethod" required>
-                  <option value="">Select Payment</option>
+                  <option value="">Choose payment method...</option>
                   <option value="Cash">Cash</option>
                   <option value="GCash">GCash</option>
-                  <option value="Card">Card</option>
+                  <option value="Card">Credit/Debit Card</option>
                 </select>
-                <div class="invalid-feedback">Select a payment method.</div>
+                <div class="invalid-feedback">
+                  Please select a payment method.
+                </div>
               </div>
 
               <div class="mb-3">
-                <label class="form-label">Delivery Option</label>
+                <label for="deliveryOption" class="form-label"
+                  >Delivery Option *</label
+                >
                 <select class="form-select" id="deliveryOption" required>
-                  <option value="">Select Option</option>
+                  <option value="">Choose delivery option...</option>
                   <option value="Pickup">Pickup</option>
-                  <option value="Delivery">Delivery</option>
+                  <option value="Delivery">Home Delivery</option>
                 </select>
-                <div class="invalid-feedback">Select a delivery option.</div>
+                <div class="invalid-feedback">
+                  Please select a delivery option.
+                </div>
               </div>
 
               <div class="mb-3 d-none" id="addressGroup">
-                <label class="form-label">Delivery Address</label>
-                <textarea class="form-control" id="address"></textarea>
+                <label for="address" class="form-label"
+                  >Delivery Address *</label
+                >
+                <textarea
+                  class="form-control"
+                  id="address"
+                  rows="3"
+                  placeholder="Enter complete delivery address"
+                ></textarea>
                 <div class="invalid-feedback">
-                  Please enter delivery address.
+                  Please enter your delivery address.
                 </div>
               </div>
             </form>
@@ -150,7 +165,42 @@
               Cancel
             </button>
             <button type="button" id="confirmOrderBtn" class="btn btn-danger">
-              Confirm Order
+              <i class="bi bi-check-circle me-2"></i>Confirm Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RECEIPT MODAL ===== -->
+    <div class="modal fade" id="receiptModal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="bi bi-receipt me-2"></i>Order Receipt
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body" id="receiptContent"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="printReceipt()"
+            >
+              <i class="bi bi-printer me-2"></i>Print Receipt
             </button>
           </div>
         </div>
@@ -159,6 +209,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
     <script src="script.js"></script>
   </body>
 </html>
